@@ -1,4 +1,5 @@
 #include "polyflow/core/model.h"
+#include "cub/base/assertions.h"
 
 struct TensorflowModel {};
 struct TensorrtModel {};
@@ -19,39 +20,21 @@ inline cub::Status model_transfer(Model* model, ModelState from, ModelState to) 
 cub::Status model_load(Model* model) {
   switch (model->type) {
   case TENSORFLOW: {
-    cub::Status status = model_transfer(model, NEW, LOADING);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, NEW, LOADING));
     model->runtime.tf = new TensorflowModel;
-    status = model_transfer(model, LOADING, READY);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, LOADING, READY));
     return cub::Success;
   }
   case TENSORRT: {
-    cub::Status status = model_transfer(model, NEW, LOADING);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, NEW, LOADING));
     model->runtime.trt = new TensorrtModel;
-    status = model_transfer(model, LOADING, READY);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, LOADING, READY));
     return cub::Success;
   }
   case OPENVINO: {
-    cub::Status status = model_transfer(model, NEW, LOADING);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, NEW, LOADING));
     model->runtime.ov = new OpenvinoModel;
-    status = model_transfer(model, LOADING, READY);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, LOADING, READY));
     return cub::Success;
   }
   default:
@@ -62,39 +45,21 @@ cub::Status model_load(Model* model) {
 cub::Status model_unload(Model* model) {
   switch (model->type) {
   case TENSORFLOW: {
-    cub::Status status = model_transfer(model, READY, UNLOADING);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, READY, UNLOADING));
     delete model->runtime.tf;
-    status = model_transfer(model, UNLOADING, DISABLED);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, UNLOADING, DISABLED));
     return cub::Success;
   }
   case TENSORRT: {
-    cub::Status status = model_transfer(model, READY, UNLOADING);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, READY, UNLOADING));
     delete model->runtime.trt;
-    status = model_transfer(model, UNLOADING, DISABLED);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, UNLOADING, DISABLED));
     return cub::Success;
   }
   case OPENVINO: {
-    cub::Status status = model_transfer(model, READY, UNLOADING);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, READY, UNLOADING));
     delete model->runtime.ov;
-    status = model_transfer(model, UNLOADING, DISABLED);
-    if (status != cub::Success) {
-      return status;
-    }
+    CUB_ASSERT_SUCC_CALL(model_transfer(model, UNLOADING, DISABLED));
     return cub::Success;
   }
   default:

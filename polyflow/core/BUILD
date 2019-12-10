@@ -10,6 +10,7 @@ cc_library(
     srcs = ["model.cc"],
     deps = [
         "@github_cub//cub/base:status",
+        "@github_cub//cub/base:assertions",
     ],    
 )
 
