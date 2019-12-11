@@ -36,6 +36,7 @@ cc_library(
         ":model_state",
         "//polyflow/tf",
         "//polyflow/trt",
+        "//polyflow/ov",        
     ],    
 )
 

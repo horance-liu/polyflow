@@ -1,22 +1,7 @@
 #include "polyflow/core/model.h"
 #include "polyflow/tf/tf_runtime.h"
 #include "polyflow/trt/trt_runtime.h"
-
-struct OpenvinoModel {};
-
-struct OpenvinoRuntime : ModelRuntime {
-private:
-  void loadModel() override {
-    ov = new OpenvinoModel;
-  }
-
-  void unloadModel() override {
-    delete ov;
-  }
-
-private:
-  OpenvinoModel* ov = nullptr;
-};
+#include "polyflow/ov/ov_runtime.h"
 
 ModelRuntime* Model::create(Type type) {
   switch (type) {
