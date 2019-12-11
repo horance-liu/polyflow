@@ -10,7 +10,7 @@ FIXTURE(ModelTest) {
   }
 
   TEST("load/unload tensorflow model") {
-    ASSERT_EQ(cub::Success, model_load(&model));
+    ASSERT_EQ(cub::Success, model.load());
     ASSERT_EQ(cub::Success, model_unload(&model));
   }
 };

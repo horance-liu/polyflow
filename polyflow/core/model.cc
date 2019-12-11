@@ -17,24 +17,24 @@ inline cub::Status model_transfer(Model* model, ModelState from, ModelState to) 
 }
 } // namespace
 
-cub::Status model_load(Model* model) {
-  switch (model->type) {
+cub::Status Model::load() {
+  switch (type) {
   case TENSORFLOW: {
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, NEW, LOADING));
-    model->runtime.tf = new TensorflowModel;
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, LOADING, READY));
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, NEW, LOADING));
+    runtime.tf = new TensorflowModel;
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, LOADING, READY));
     return cub::Success;
   }
   case TENSORRT: {
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, NEW, LOADING));
-    model->runtime.trt = new TensorrtModel;
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, LOADING, READY));
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, NEW, LOADING));
+    runtime.trt = new TensorrtModel;
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, LOADING, READY));
     return cub::Success;
   }
   case OPENVINO: {
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, NEW, LOADING));
-    model->runtime.ov = new OpenvinoModel;
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, LOADING, READY));
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, NEW, LOADING));
+    runtime.ov = new OpenvinoModel;
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, LOADING, READY));
     return cub::Success;
   }
   default:

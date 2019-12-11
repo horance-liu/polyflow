@@ -16,6 +16,8 @@ struct TensorrtModel;
 struct OpenvinoModel;
 
 struct Model {
+  cub::Status load();
+
   ModelType type;
   ModelState state;
   union {
@@ -25,7 +27,6 @@ struct Model {
   } runtime;
 };
 
-cub::Status model_load(Model* model);
 cub::Status model_unload(Model* model);
 
 #endif
