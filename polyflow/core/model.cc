@@ -16,6 +16,32 @@ cub::Status Model::unload() {
   return state.onUnload(*this);
 }
 
+struct ModelRuntime {
+  virtual Model::Type getModelType() const = 0;
+  virtual ~ModelRuntime() {}
+};
+
+struct TensorflowRuntime : ModelRuntime {
+private:
+  Model::Type getModelType() const override {
+    return Model::TENSORFLOW;
+  }
+};
+
+struct TensorrtRuntime : ModelRuntime {
+private:
+  Model::Type getModelType() const override {
+    return Model::TENSORRT;
+  }
+};
+
+struct OpenvinoRuntime : ModelRuntime {
+private:
+  Model::Type getModelType() const override {
+    return Model::OPENVINO;
+  }
+};
+
 Model::Type Model::getType() const {
   return type;
 }
