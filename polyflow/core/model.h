@@ -7,10 +7,6 @@ enum ModelType {
   TENSORFLOW, TENSORRT, OPENVINO,
 };
 
-enum ModelState {
-  NEW, LOADING, READY, UNLOADING, DISABLED, ERROR,
-};
-
 struct TensorflowModel;
 struct TensorrtModel;
 struct OpenvinoModel;
@@ -22,6 +18,10 @@ struct Model {
   cub::Status unload();
 
 private:
+  enum ModelState {
+    NEW, LOADING, READY, UNLOADING, DISABLED, ERROR,
+  };
+
   cub::Status transfer(ModelState from, ModelState to);
 
 private:
