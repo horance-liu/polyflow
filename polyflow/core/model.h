@@ -26,6 +26,9 @@ struct Model {
     TensorrtModel* trt;
     OpenvinoModel* ov;
   } runtime;
+
+private:
+  cub::Status transfer(ModelState from, ModelState to);
 };
 
 cub::Status model_unload(Model* model);
