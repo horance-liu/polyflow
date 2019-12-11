@@ -16,11 +16,13 @@ struct TensorrtModel;
 struct OpenvinoModel;
 
 struct Model {
+  Model(ModelType type);
+
   cub::Status load();
   cub::Status unload();
 
-  ModelType type;
   ModelState state;
+  ModelType type;
   union {
     TensorflowModel* tf;
     TensorrtModel* trt;
