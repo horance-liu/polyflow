@@ -14,6 +14,8 @@ private:
     NEW, LOADING, READY, UNLOADING, DISABLED, ERROR,
   } state = NEW;
 
+  cub::Status err(State to);
+  cub::Status ok(State to);
   cub::Status transfer(State from, State to);
 };
 

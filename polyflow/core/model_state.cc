@@ -2,14 +2,18 @@
 #include "polyflow/core/model_loader.h"
 #include "cub/base/assertions.h"
 
+inline cub::Status ModelState::ok(State to) {
+  state = to;
+  return cub::Success;
+}
+
+inline cub::Status ModelState::err(State to) {
+  state = to;
+  return cub::Failure;
+}
+
 inline cub::Status ModelState::transfer(State from, State to) {
-  if (state == from) {
-    state = to;
-    return cub::Success;
-  } else {
-    state = ERROR;
-    return cub::Failure;
-  }
+  return state == from ? ok(to) : err(ERROR);
 }
 
 cub::Status ModelState::onLoad(ModelLoader& loader) {
