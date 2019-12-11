@@ -8,16 +8,11 @@ struct OpenvinoModel {};
 struct ModelRuntime {
   virtual cub::Status loadModel() = 0;
   virtual cub::Status unloadModel() = 0;
-  virtual Model::Type getModelType() const = 0;
   virtual ~ModelRuntime() {}
 };
 
 struct TensorflowRuntime : ModelRuntime {
 private:
-  Model::Type getModelType() const override {
-    return Model::TENSORFLOW;
-  }
-
   cub::Status loadModel() override {
     tf = new TensorflowModel;
     return cub::Success;
@@ -34,10 +29,6 @@ private:
 
 struct TensorrtRuntime : ModelRuntime {
 private:
-  Model::Type getModelType() const override {
-    return Model::TENSORRT;
-  }
-
   cub::Status loadModel() override {
     trt = new TensorrtModel;
     return cub::Success;
@@ -54,10 +45,6 @@ private:
 
 struct OpenvinoRuntime : ModelRuntime {
 private:
-  Model::Type getModelType() const override {
-    return Model::OPENVINO;
-  }
-
   cub::Status loadModel() override {
     ov = new OpenvinoModel;
     return cub::Success;
