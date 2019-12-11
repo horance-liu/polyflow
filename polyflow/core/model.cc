@@ -1,22 +1,8 @@
 #include "polyflow/core/model.h"
 #include "polyflow/tf/tf_runtime.h"
+#include "polyflow/trt/trt_runtime.h"
 
-struct TensorrtModel {};
 struct OpenvinoModel {};
-
-struct TensorrtRuntime : ModelRuntime {
-private:
-  void loadModel() override {
-    trt = new TensorrtModel;
-  }
-
-  void unloadModel() override {
-    delete trt;
-  }
-
-private:
-  TensorrtModel* trt = nullptr;
-};
 
 struct OpenvinoRuntime : ModelRuntime {
 private:

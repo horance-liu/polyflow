@@ -35,6 +35,7 @@ cc_library(
     deps = [
         ":model_state",
         "//polyflow/tf",
+        "//polyflow/trt",
     ],    
 )
 
