@@ -5,12 +5,29 @@ package(
 )
 
 cc_library(
+    name = "model_loader",
+    hdrs = ["model_loader.h"],
+    deps = [
+        "@github_cub//cub/base:status",
+    ],    
+)
+
+cc_library(
+    name = "model_state",
+    hdrs = ["model_state.h"],
+    srcs = ["model_state.cc"],    
+    deps = [
+        ":model_loader",
+        "@github_cub//cub/base:assertions",
+    ],    
+)
+
+cc_library(
     name = "model",
     hdrs = ["model.h"],
     srcs = ["model.cc"],
     deps = [
-        "@github_cub//cub/base:status",
-        "@github_cub//cub/base:assertions",
+        ":model_state",
     ],    
 )
 

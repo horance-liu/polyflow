@@ -1,13 +1,14 @@
 #ifndef HF9F842A4_C796_4725_8711_EA75EB36E484
 #define HF9F842A4_C796_4725_8711_EA75EB36E484
 
-#include "cub/base/status.h"
+#include "polyflow/core/model_loader.h"
+#include "polyflow/core/model_state.h"
 
 struct TensorflowModel;
 struct TensorrtModel;
 struct OpenvinoModel;
 
-struct Model {
+struct Model : private ModelLoader {
   enum Type {
     TENSORFLOW, TENSORRT, OPENVINO,
   };
@@ -18,14 +19,11 @@ struct Model {
   cub::Status unload();
 
 private:
-  enum State {
-    NEW, LOADING, READY, UNLOADING, DISABLED, ERROR,
-  };
-
-  cub::Status transfer(State from, State to);
+  cub::Status loadModel() override;
+  cub::Status unloadModel() override;
 
 private:
-  State state;
+  ModelState state;
   Type type;
   union {
     TensorflowModel* tf;
