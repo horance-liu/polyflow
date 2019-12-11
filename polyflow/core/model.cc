@@ -3,7 +3,7 @@
 #include "polyflow/trt/trt_runtime.h"
 #include "polyflow/ov/ov_runtime.h"
 
-ModelRuntime* Model::create(Type type) {
+ModelRuntime* Model::create(RuntimeType type) {
   switch (type) {
   case TENSORFLOW:
     return new TensorflowRuntime;
@@ -16,7 +16,7 @@ ModelRuntime* Model::create(Type type) {
   }
 }
 
-Model::Model(Type type) : runtime(create(type)) {
+Model::Model(RuntimeType type) : runtime(create(type)) {
 }
 
 Model::~Model() {

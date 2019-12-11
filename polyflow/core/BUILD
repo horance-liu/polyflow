@@ -17,6 +17,10 @@ cc_library(
     hdrs = ["model_runtime.h"],
 )
 
+cc_library(
+    name = "runtime_type",
+    hdrs = ["runtime_type.h"],
+)
 
 cc_library(
     name = "model_state",
@@ -34,6 +38,7 @@ cc_library(
     srcs = ["model.cc"],
     deps = [
         ":model_state",
+        ":runtime_type",        
         "//polyflow/tf",
         "//polyflow/trt",
         "//polyflow/ov",        

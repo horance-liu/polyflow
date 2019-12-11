@@ -3,15 +3,12 @@
 
 #include "polyflow/core/model_loader.h"
 #include "polyflow/core/model_state.h"
+#include "polyflow/core/runtime_type.h"
 
 struct ModelRuntime;
 
 struct Model : private ModelLoader {
-  enum Type {
-    TENSORFLOW, TENSORRT, OPENVINO,
-  };
-
-  Model(Type type);
+  Model(RuntimeType type);
   ~Model();
 
   cub::Status load();
@@ -25,7 +22,7 @@ private:
   cub::Status op(Op op);
 
 private:
-  static ModelRuntime* create(Type type);
+  static ModelRuntime* create(RuntimeType type);
 
 private:
   ModelState state;
