@@ -6,21 +6,19 @@ struct TensorrtModel {};
 struct OpenvinoModel {};
 
 struct ModelRuntime {
-  virtual cub::Status loadModel() = 0;
-  virtual cub::Status unloadModel() = 0;
+  virtual void loadModel() = 0;
+  virtual void unloadModel() = 0;
   virtual ~ModelRuntime() {}
 };
 
 struct TensorflowRuntime : ModelRuntime {
 private:
-  cub::Status loadModel() override {
+  void loadModel() override {
     tf = new TensorflowModel;
-    return cub::Success;
   }
 
-  cub::Status unloadModel() override {
+  void unloadModel() override {
     delete tf;
-    return cub::Success;
   }
 
 private:
@@ -29,14 +27,12 @@ private:
 
 struct TensorrtRuntime : ModelRuntime {
 private:
-  cub::Status loadModel() override {
+  void loadModel() override {
     trt = new TensorrtModel;
-    return cub::Success;
   }
 
-  cub::Status unloadModel() override {
+  void unloadModel() override {
     delete trt;
-    return cub::Success;
   }
 
 private:
@@ -45,14 +41,12 @@ private:
 
 struct OpenvinoRuntime : ModelRuntime {
 private:
-  cub::Status loadModel() override {
+  void loadModel() override {
     ov = new OpenvinoModel;
-    return cub::Success;
   }
 
-  cub::Status unloadModel() override {
+  void unloadModel() override {
     delete ov;
-    return cub::Success;
   }
 
 private:
@@ -87,10 +81,19 @@ cub::Status Model::unload() {
   return state.onUnload(*this);
 }
 
+template <typename Op>
+cub::Status Model::op(Op op) {
+  return runtime ? (op(*runtime), cub::Success) : cub::Failure;
+}
+
 cub::Status Model::loadModel() {
-  return runtime->loadModel();
+  return op([](ModelRuntime& runtime){
+    return runtime.loadModel();
+  });
 }
 
 cub::Status Model::unloadModel() {
-  return runtime->unloadModel();
+  return op([](ModelRuntime& runtime){
+    return runtime.unloadModel();
+  });
 }

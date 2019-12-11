@@ -25,6 +25,9 @@ private:
   cub::Status loadModel() override;
   cub::Status unloadModel() override;
 
+  template <typename Op>
+  cub::Status op(Op op);
+
 private:
   static ModelRuntime* create(Type type);
 
