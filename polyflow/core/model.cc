@@ -19,15 +19,15 @@ cub::Status Model::unload() {
 cub::Status Model::loadModel() {
   switch (type) {
   case TENSORFLOW: {
-    runtime.tf = new TensorflowModel;
+    m.tf = new TensorflowModel;
     return cub::Success;
   }
   case TENSORRT: {
-    runtime.trt = new TensorrtModel;
+    m.trt = new TensorrtModel;
     return cub::Success;
   }
   case OPENVINO: {
-    runtime.ov = new OpenvinoModel;
+    m.ov = new OpenvinoModel;
     return cub::Success;
   }
   default:
@@ -38,15 +38,15 @@ cub::Status Model::loadModel() {
 cub::Status Model::unloadModel() {
   switch (type) {
   case TENSORFLOW: {
-    delete runtime.tf;
+    delete m.tf;
     return cub::Success;
   }
   case TENSORRT: {
-    delete runtime.trt;
+    delete m.trt;
     return cub::Success;
   }
   case OPENVINO: {
-    delete runtime.ov;
+    delete m.ov;
     return cub::Success;
   }
   default:

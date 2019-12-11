@@ -29,7 +29,7 @@ private:
     TensorflowModel* tf;
     TensorrtModel* trt;
     OpenvinoModel* ov;
-  } runtime;
+  } m;
 };
 
 #endif
