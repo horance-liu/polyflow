@@ -1,22 +1,7 @@
 #include "polyflow/core/model.h"
-#include "polyflow/tf/tf_runtime.h"
-#include "polyflow/trt/trt_runtime.h"
-#include "polyflow/ov/ov_runtime.h"
+#include "polyflow/core/runtime_factory.h"
 
-ModelRuntime* Model::create(RuntimeType type) {
-  switch (type) {
-  case TENSORFLOW:
-    return new TensorflowRuntime;
-  case TENSORRT:
-    return new TensorrtRuntime;
-  case OPENVINO:
-    return new OpenvinoRuntime;
-  default:
-    return nullptr;
-  }
-}
-
-Model::Model(RuntimeType type) : runtime(create(type)) {
+Model::Model(RuntimeType type) : runtime(create_runtime(type)) {
 }
 
 Model::~Model() {
