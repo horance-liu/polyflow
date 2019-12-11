@@ -34,7 +34,7 @@ cc_library(
     srcs = ["model.cc"],
     deps = [
         ":model_state",
-        ":model_runtime",
+        "//polyflow/tf",
     ],    
 )
 

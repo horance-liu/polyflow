@@ -4,10 +4,6 @@
 #include "polyflow/core/model_loader.h"
 #include "polyflow/core/model_state.h"
 
-struct TensorflowModel;
-struct TensorrtModel;
-struct OpenvinoModel;
-
 struct ModelRuntime;
 
 struct Model : private ModelLoader {

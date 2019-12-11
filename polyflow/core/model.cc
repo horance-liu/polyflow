@@ -1,24 +1,8 @@
 #include "polyflow/core/model.h"
-#include "polyflow/core/model_runtime.h"
-#include "cub/base/assertions.h"
+#include "polyflow/tf/tf_runtime.h"
 
-struct TensorflowModel {};
 struct TensorrtModel {};
 struct OpenvinoModel {};
-
-struct TensorflowRuntime : ModelRuntime {
-private:
-  void loadModel() override {
-    tf = new TensorflowModel;
-  }
-
-  void unloadModel() override {
-    delete tf;
-  }
-
-private:
-  TensorflowModel* tf = nullptr;
-};
 
 struct TensorrtRuntime : ModelRuntime {
 private:
