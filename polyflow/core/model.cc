@@ -8,9 +8,6 @@ struct OpenvinoModel {};
 struct ModelRuntime {
   virtual cub::Status loadModel() {
     switch (getModelType()) {
-    case Model::TENSORRT:
-      m.trt = new TensorrtModel;
-      return cub::Success;
     case Model::OPENVINO:
       m.ov = new OpenvinoModel;
       return cub::Success;
@@ -21,9 +18,6 @@ struct ModelRuntime {
 
   virtual cub::Status unloadModel() {
     switch (getModelType()) {
-    case Model::TENSORRT:
-      delete m.trt;
-      return cub::Success;
     case Model::OPENVINO:
       delete m.ov;
       return cub::Success;
@@ -37,7 +31,6 @@ struct ModelRuntime {
 
 private:
   union {
-    TensorrtModel* trt;
     OpenvinoModel* ov;
   } m;
 };
@@ -67,6 +60,19 @@ private:
   Model::Type getModelType() const override {
     return Model::TENSORRT;
   }
+
+  cub::Status loadModel() override {
+    trt = new TensorrtModel;
+    return cub::Success;
+  }
+
+  cub::Status unloadModel() override {
+    delete trt;
+    return cub::Success;
+  }
+
+private:
+  TensorrtModel* trt = nullptr;
 };
 
 struct OpenvinoRuntime : ModelRuntime {
