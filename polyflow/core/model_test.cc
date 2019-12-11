@@ -2,7 +2,7 @@
 #include "cctest/cctest.h"
 
 FIXTURE(ModelTest) {
-  Model model {TENSORFLOW};
+  Model model {Model::TENSORFLOW};
 
   TEST("load/unload tensorflow model") {
     ASSERT_EQ(cub::Success, model.load());

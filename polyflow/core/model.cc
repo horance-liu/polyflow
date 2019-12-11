@@ -5,7 +5,7 @@ struct TensorflowModel {};
 struct TensorrtModel {};
 struct OpenvinoModel {};
 
-Model::Model(ModelType type) : state(NEW), type(type) {
+Model::Model(Type type) : state(NEW), type(type) {
 }
 
 inline cub::Status Model::transfer(State from, State to) {

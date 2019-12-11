@@ -3,16 +3,16 @@
 
 #include "cub/base/status.h"
 
-enum ModelType {
-  TENSORFLOW, TENSORRT, OPENVINO,
-};
-
 struct TensorflowModel;
 struct TensorrtModel;
 struct OpenvinoModel;
 
 struct Model {
-  Model(ModelType type);
+  enum Type {
+    TENSORFLOW, TENSORRT, OPENVINO,
+  };
+
+  Model(Type type);
 
   cub::Status load();
   cub::Status unload();
@@ -26,7 +26,7 @@ private:
 
 private:
   State state;
-  ModelType type;
+  Type type;
   union {
     TensorflowModel* tf;
     TensorrtModel* trt;
