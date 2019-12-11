@@ -6,8 +6,47 @@ struct TensorrtModel {};
 struct OpenvinoModel {};
 
 struct ModelRuntime {
+  virtual cub::Status loadModel() {
+    switch (getModelType()) {
+    case Model::TENSORFLOW:
+      m.tf = new TensorflowModel;
+      return cub::Success;
+    case Model::TENSORRT:
+      m.trt = new TensorrtModel;
+      return cub::Success;
+    case Model::OPENVINO:
+      m.ov = new OpenvinoModel;
+      return cub::Success;
+    default:
+      return cub::Failure;
+    }
+  }
+
+  virtual cub::Status unloadModel() {
+    switch (getModelType()) {
+    case Model::TENSORFLOW:
+      delete m.tf;
+      return cub::Success;
+    case Model::TENSORRT:
+      delete m.trt;
+      return cub::Success;
+    case Model::OPENVINO:
+      delete m.ov;
+      return cub::Success;
+    default:
+      return cub::Failure;
+    }
+  }
+
   virtual Model::Type getModelType() const = 0;
   virtual ~ModelRuntime() {}
+
+private:
+  union {
+    TensorflowModel* tf;
+    TensorrtModel* trt;
+    OpenvinoModel* ov;
+  } m;
 };
 
 struct TensorflowRuntime : ModelRuntime {
@@ -59,44 +98,10 @@ cub::Status Model::unload() {
   return state.onUnload(*this);
 }
 
-Model::Type Model::getType() const {
-  return runtime->getModelType();
-}
-
 cub::Status Model::loadModel() {
-  switch (getType()) {
-  case TENSORFLOW: {
-    m.tf = new TensorflowModel;
-    return cub::Success;
-  }
-  case TENSORRT: {
-    m.trt = new TensorrtModel;
-    return cub::Success;
-  }
-  case OPENVINO: {
-    m.ov = new OpenvinoModel;
-    return cub::Success;
-  }
-  default:
-    return cub::Failure;
-  }
+  return runtime->loadModel();
 }
 
 cub::Status Model::unloadModel() {
-  switch (getType()) {
-  case TENSORFLOW: {
-    delete m.tf;
-    return cub::Success;
-  }
-  case TENSORRT: {
-    delete m.trt;
-    return cub::Success;
-  }
-  case OPENVINO: {
-    delete m.ov;
-    return cub::Success;
-  }
-  default:
-    return cub::Failure;
-  }
+  return runtime->unloadModel();
 }

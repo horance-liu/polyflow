@@ -26,18 +26,11 @@ private:
   cub::Status unloadModel() override;
 
 private:
-  Type getType() const;
   static ModelRuntime* create(Type type);
 
 private:
   ModelState state;
   ModelRuntime* runtime;
-
-  union {
-    TensorflowModel* tf;
-    TensorrtModel* trt;
-    OpenvinoModel* ov;
-  } m;
 };
 
 #endif
