@@ -21,6 +21,10 @@ struct Model {
   cub::Status load();
   cub::Status unload();
 
+private:
+  cub::Status transfer(ModelState from, ModelState to);
+
+private:
   ModelState state;
   ModelType type;
   union {
@@ -28,11 +32,6 @@ struct Model {
     TensorrtModel* trt;
     OpenvinoModel* ov;
   } runtime;
-
-private:
-  cub::Status transfer(ModelState from, ModelState to);
 };
-
-cub::Status model_unload(Model* model);
 
 #endif
