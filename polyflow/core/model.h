@@ -8,12 +8,15 @@ struct TensorflowModel;
 struct TensorrtModel;
 struct OpenvinoModel;
 
+struct ModelRuntime;
+
 struct Model : private ModelLoader {
   enum Type {
     TENSORFLOW, TENSORRT, OPENVINO,
   };
 
   Model(Type type);
+  ~Model();
 
   cub::Status load();
   cub::Status unload();
@@ -24,10 +27,12 @@ private:
 
 private:
   Type getType() const;
+  static ModelRuntime* create(Type type);
 
 private:
   ModelState state;
-  Type type;
+  ModelRuntime* runtime;
+
   union {
     TensorflowModel* tf;
     TensorrtModel* trt;

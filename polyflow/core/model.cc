@@ -5,17 +5,6 @@ struct TensorflowModel {};
 struct TensorrtModel {};
 struct OpenvinoModel {};
 
-Model::Model(Type type) : type(type) {
-}
-
-cub::Status Model::load() {
-  return state.onLoad(*this);
-}
-
-cub::Status Model::unload() {
-  return state.onUnload(*this);
-}
-
 struct ModelRuntime {
   virtual Model::Type getModelType() const = 0;
   virtual ~ModelRuntime() {}
@@ -42,8 +31,36 @@ private:
   }
 };
 
+ModelRuntime* Model::create(Type type) {
+  switch (type) {
+  case TENSORFLOW:
+    return new TensorflowRuntime;
+  case TENSORRT:
+    return new TensorrtRuntime;
+  case OPENVINO:
+    return new OpenvinoRuntime;
+  default:
+    return nullptr;
+  }
+}
+
+Model::Model(Type type) : runtime(create(type)) {
+}
+
+Model::~Model() {
+  delete runtime;
+}
+
+cub::Status Model::load() {
+  return state.onLoad(*this);
+}
+
+cub::Status Model::unload() {
+  return state.onUnload(*this);
+}
+
 Model::Type Model::getType() const {
-  return type;
+  return runtime->getModelType();
 }
 
 cub::Status Model::loadModel() {
