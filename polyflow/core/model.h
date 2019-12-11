@@ -18,14 +18,14 @@ struct Model {
   cub::Status unload();
 
 private:
-  enum ModelState {
+  enum State {
     NEW, LOADING, READY, UNLOADING, DISABLED, ERROR,
   };
 
-  cub::Status transfer(ModelState from, ModelState to);
+  cub::Status transfer(State from, State to);
 
 private:
-  ModelState state;
+  State state;
   ModelType type;
   union {
     TensorflowModel* tf;

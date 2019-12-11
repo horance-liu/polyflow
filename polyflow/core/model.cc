@@ -8,7 +8,7 @@ struct OpenvinoModel {};
 Model::Model(ModelType type) : state(NEW), type(type) {
 }
 
-inline cub::Status Model::transfer(ModelState from, ModelState to) {
+inline cub::Status Model::transfer(State from, State to) {
   if (state == from) {
     state = to;
     return cub::Success;
