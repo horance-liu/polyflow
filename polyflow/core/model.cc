@@ -1,15 +1,10 @@
 #include "polyflow/core/model.h"
+#include "polyflow/core/model_runtime.h"
 #include "cub/base/assertions.h"
 
 struct TensorflowModel {};
 struct TensorrtModel {};
 struct OpenvinoModel {};
-
-struct ModelRuntime {
-  virtual void loadModel() = 0;
-  virtual void unloadModel() = 0;
-  virtual ~ModelRuntime() {}
-};
 
 struct TensorflowRuntime : ModelRuntime {
 private:

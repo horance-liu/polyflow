@@ -13,6 +13,12 @@ cc_library(
 )
 
 cc_library(
+    name = "model_runtime",
+    hdrs = ["model_runtime.h"],
+)
+
+
+cc_library(
     name = "model_state",
     hdrs = ["model_state.h"],
     srcs = ["model_state.cc"],    
@@ -28,6 +34,7 @@ cc_library(
     srcs = ["model.cc"],
     deps = [
         ":model_state",
+        ":model_runtime",
     ],    
 )
 
