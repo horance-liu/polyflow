@@ -42,24 +42,24 @@ cub::Status Model::load() {
   }
 }
 
-cub::Status model_unload(Model* model) {
-  switch (model->type) {
+cub::Status Model::unload() {
+  switch (type) {
   case TENSORFLOW: {
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, READY, UNLOADING));
-    delete model->runtime.tf;
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, UNLOADING, DISABLED));
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, READY, UNLOADING));
+    delete runtime.tf;
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, UNLOADING, DISABLED));
     return cub::Success;
   }
   case TENSORRT: {
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, READY, UNLOADING));
-    delete model->runtime.trt;
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, UNLOADING, DISABLED));
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, READY, UNLOADING));
+    delete runtime.trt;
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, UNLOADING, DISABLED));
     return cub::Success;
   }
   case OPENVINO: {
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, READY, UNLOADING));
-    delete model->runtime.ov;
-    CUB_ASSERT_SUCC_CALL(model_transfer(model, UNLOADING, DISABLED));
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, READY, UNLOADING));
+    delete runtime.ov;
+    CUB_ASSERT_SUCC_CALL(model_transfer(this, UNLOADING, DISABLED));
     return cub::Success;
   }
   default:

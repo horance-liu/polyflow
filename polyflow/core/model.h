@@ -17,6 +17,7 @@ struct OpenvinoModel;
 
 struct Model {
   cub::Status load();
+  cub::Status unload();
 
   ModelType type;
   ModelState state;
