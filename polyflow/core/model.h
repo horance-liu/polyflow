@@ -23,6 +23,9 @@ private:
   cub::Status unloadModel() override;
 
 private:
+  Type getType() const;
+
+private:
   ModelState state;
   Type type;
   union {

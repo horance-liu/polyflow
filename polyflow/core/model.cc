@@ -16,8 +16,12 @@ cub::Status Model::unload() {
   return state.onUnload(*this);
 }
 
+Model::Type Model::getType() const {
+  return type;
+}
+
 cub::Status Model::loadModel() {
-  switch (type) {
+  switch (getType()) {
   case TENSORFLOW: {
     m.tf = new TensorflowModel;
     return cub::Success;
@@ -36,7 +40,7 @@ cub::Status Model::loadModel() {
 }
 
 cub::Status Model::unloadModel() {
-  switch (type) {
+  switch (getType()) {
   case TENSORFLOW: {
     delete m.tf;
     return cub::Success;
