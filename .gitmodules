@@ -1,0 +1,6 @@
+[submodule "3th_party/cctest"]
+	path = 3th_party/cctest
+	url = https://github.com/ccup/cctest.git
+[submodule "3th_party/cub"]
+	path = 3th_party/cub
+	url = https://github.com/horance-liu/cub.git
