@@ -5,21 +5,13 @@ package(
 )
 
 cc_library(
+    name = "model_type",
+    hdrs = ["model_type.h"],
+)
+
+cc_library(
     name = "model_loader",
     hdrs = ["model_loader.h"],
-    deps = [
-        "@github_cub//cub/base:status",
-    ],    
-)
-
-cc_library(
-    name = "model_runtime",
-    hdrs = ["model_runtime.h"],
-)
-
-cc_library(
-    name = "runtime_type",
-    hdrs = ["runtime_type.h"],
 )
 
 cc_library(
@@ -28,16 +20,17 @@ cc_library(
     srcs = ["model_state.cc"],    
     deps = [
         ":model_loader",
+        "@github_cub//cub/base:status",        
         "@github_cub//cub/base:assertions",
     ],    
 )
 
 cc_library(
-    name = "runtime_factory",
-    hdrs = ["runtime_factory.h"],
-    srcs = ["runtime_factory.cc"],
+    name = "model_loader_factory",
+    hdrs = ["model_loader_factory.h"],
+    srcs = ["model_loader_factory.cc"],
     deps = [
-        ":runtime_type",
+        ":model_type",
         "//polyflow/tf",
         "//polyflow/trt",
         "//polyflow/ov",        
@@ -50,8 +43,8 @@ cc_library(
     srcs = ["model.cc"],
     deps = [
         ":model_state",
-        ":runtime_factory",
-    ],    
+        ":model_loader_factory",
+    ],
 )
 
 cc_test(

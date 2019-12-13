@@ -6,9 +6,9 @@ package(
 
 cc_library(
     name = "tf",
-    hdrs = ["tf_runtime.h"],
-    srcs = ["tf_runtime.cc"],
+    hdrs = ["tf_model_loader.h"],
+    srcs = ["tf_model_loader.cc"],
     deps = [
-        "//polyflow/core:model_runtime",
+        "//polyflow/core:model_loader",
     ],    
 )

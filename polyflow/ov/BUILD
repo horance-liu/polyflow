@@ -6,9 +6,9 @@ package(
 
 cc_library(
     name = "ov",
-    hdrs = ["ov_runtime.h"],
-    srcs = ["ov_runtime.cc"],
+    hdrs = ["ov_model_loader.h"],
+    srcs = ["ov_model_loader.cc"],
     deps = [
-        "//polyflow/core:model_runtime",
+        "//polyflow/core:model_loader",
     ],    
 )

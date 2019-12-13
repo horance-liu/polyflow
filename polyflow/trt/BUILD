@@ -6,9 +6,9 @@ package(
 
 cc_library(
     name = "trt",
-    hdrs = ["trt_runtime.h"],
-    srcs = ["trt_runtime.cc"],
+    hdrs = ["trt_model_loader.h"],
+    srcs = ["trt_model_loader.cc"],
     deps = [
-        "//polyflow/core:model_runtime",
+        "//polyflow/core:model_loader",
     ],    
 )

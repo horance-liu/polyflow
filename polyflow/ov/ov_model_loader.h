@@ -1,11 +1,11 @@
 #ifndef H9721D5A2_FE82_4663_DEVH_76AF680EFADR
 #define H9721D5A2_FE82_4663_DEVH_76AF680EFADR
 
-#include "polyflow/core/model_runtime.h"
+#include "polyflow/core/model_loader.h"
 
 struct OpenvinoModel;
 
-struct OpenvinoRuntime : ModelRuntime {
+struct OpenvinoModelLoader : ModelLoader {
 private:
   void loadModel() override;
   void unloadModel() override;

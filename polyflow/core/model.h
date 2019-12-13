@@ -3,30 +3,18 @@
 
 #include "polyflow/core/model_loader.h"
 #include "polyflow/core/model_state.h"
-#include "polyflow/core/runtime_type.h"
+#include "polyflow/core/model_type.h"
 
-struct ModelRuntime;
-
-struct Model : private ModelLoader {
-  Model(RuntimeType type);
+struct Model {
+  Model(ModelType type);
   ~Model();
 
   cub::Status load();
   cub::Status unload();
 
 private:
-  cub::Status loadModel() override;
-  cub::Status unloadModel() override;
-
-  template <typename Op>
-  cub::Status op(Op op);
-
-private:
-  static ModelRuntime* create(RuntimeType type);
-
-private:
   ModelState state;
-  ModelRuntime* runtime;
+  ModelLoader* loader;
 };
 
 #endif

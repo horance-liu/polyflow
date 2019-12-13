@@ -1,34 +1,17 @@
 #include "polyflow/core/model.h"
-#include "polyflow/core/runtime_factory.h"
+#include "polyflow/core/model_loader_factory.h"
 
-Model::Model(RuntimeType type) : runtime(create_runtime(type)) {
+Model::Model(ModelType type) : loader(create_model_loader(type)) {
 }
 
 Model::~Model() {
-  delete runtime;
+  delete loader;
 }
 
 cub::Status Model::load() {
-  return state.onLoad(*this);
+  return state.onLoad(*loader);
 }
 
 cub::Status Model::unload() {
-  return state.onUnload(*this);
-}
-
-template <typename Op>
-cub::Status Model::op(Op op) {
-  return runtime ? (op(*runtime), cub::Success) : cub::Failure;
-}
-
-cub::Status Model::loadModel() {
-  return op([](ModelRuntime& runtime){
-    return runtime.loadModel();
-  });
-}
-
-cub::Status Model::unloadModel() {
-  return op([](ModelRuntime& runtime){
-    return runtime.unloadModel();
-  });
+  return state.onUnload(*loader);
 }

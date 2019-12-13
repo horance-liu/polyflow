@@ -2,9 +2,20 @@
 #include "cctest/cctest.h"
 
 FIXTURE(ModelTest) {
-  Model model {TENSORFLOW};
-
   TEST("load/unload tensorflow model") {
+    Model model = TENSORFLOW;
+    ASSERT_EQ(cub::Success, model.load());
+    ASSERT_EQ(cub::Success, model.unload());
+  }
+
+  TEST("load/unload tensorrt model") {
+    Model model = TENSORRT;
+    ASSERT_EQ(cub::Success, model.load());
+    ASSERT_EQ(cub::Success, model.unload());
+  }
+
+  TEST("load/unload openvino model") {
+    Model model = OPENVINO;
     ASSERT_EQ(cub::Success, model.load());
     ASSERT_EQ(cub::Success, model.unload());
   }

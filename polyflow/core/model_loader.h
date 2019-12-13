@@ -1,12 +1,10 @@
-#ifndef H33D23DD5_8479_4F2B_A345_5723877C6A89
-#define H33D23DD5_8479_4F2B_A345_5723877C6A89
-
-#include "cub/base/status.h"
+#ifndef H129DFBD2_6735_498D_86F1_158B37048175
+#define H129DFBD2_6735_498D_86F1_158B37048175
 
 struct ModelLoader {
-  virtual cub::Status loadModel() = 0;
-  virtual cub::Status unloadModel() = 0;
-  virtual ~ModelLoader() {};
+  virtual void loadModel() = 0;
+  virtual void unloadModel() = 0;
+  virtual ~ModelLoader() {}
 };
 
 #endif

@@ -8,7 +8,7 @@ inline cub::Status ModelState::ok(State to) {
 }
 
 inline cub::Status ModelState::err(State to) {
-  state = to;
+  state = ERROR;
   return cub::Failure;
 }
 
@@ -18,14 +18,14 @@ inline cub::Status ModelState::transfer(State from, State to) {
 
 cub::Status ModelState::onLoad(ModelLoader& loader) {
   CUB_ASSERT_SUCC_CALL(transfer(NEW, LOADING));
-  CUB_ASSERT_SUCC_CALL(loader.loadModel());
+  loader.loadModel();
   CUB_ASSERT_SUCC_CALL(transfer(LOADING, READY));
   return cub::Success;
 }
 
 cub::Status ModelState::onUnload(ModelLoader& loader) {
   CUB_ASSERT_SUCC_CALL(transfer(READY, UNLOADING));
-  CUB_ASSERT_SUCC_CALL(loader.unloadModel());
+  loader.unloadModel();
   CUB_ASSERT_SUCC_CALL(transfer(UNLOADING, DISABLED));
   return cub::Success;
 }
